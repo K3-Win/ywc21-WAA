@@ -115,7 +115,13 @@ function remediateLandmarks(code: string): string {
     }
   }
 
-  if (firstDivLineIndex !== -1 && lastDivLineIndex !== -1 && firstDivLineIndex < lastDivLineIndex) {
+  if (firstDivLineIndex !== -1 && lastDivLineIndex !== -1) {
+    if (firstDivLineIndex === lastDivLineIndex) {
+      lines[firstDivLineIndex] = lines[firstDivLineIndex]
+        .replace(/^(\s*)<div\b/i, '$1<main')
+        .replace(/<\/div>(\s*)$/i, '</main>$1');
+      return lines.join('\n');
+    }
     lines[firstDivLineIndex] = lines[firstDivLineIndex].replace(/^(\s*)<div\b/i, '$1<main');
     lines[lastDivLineIndex] = lines[lastDivLineIndex].replace(/<\/div>(\s*)$/i, '</main>$1');
     return lines.join('\n');
@@ -183,7 +189,7 @@ function remediateImages(code: string): string {
 function remediateHeadings(code: string): string {
   let prevLevel = 0;
 
-  return code.replace(/<h([1-6])\b([^>]*)>(.*?)<\/h\1>/gi, (match, levelStr, attrs, content) => {
+  return code.replace(/<h([1-6])\b([^>]*)>([\s\S]*?)<\/h\1>/gi, (match, levelStr, attrs, content) => {
     const currentLevel = parseInt(levelStr, 10);
     let targetLevel = currentLevel;
 
@@ -378,7 +384,7 @@ function remediateEmptyButtons(code: string): string {
  * Remediates <a> links by adding missing href and replacing vague link text.
  */
 function remediateLinks(code: string): string {
-  return code.replace(/<a\b([^>]*)>(.*?)<\/a>/gi, (_match, attrs: string, content: string) => {
+  return code.replace(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi, (_match, attrs: string, content: string) => {
     let patchedAttrs = attrs;
     let patchedContent = content;
 
