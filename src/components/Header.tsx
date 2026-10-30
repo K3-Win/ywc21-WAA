@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { SITE_CONFIG } from '../config/siteConfig';
 
 export const Header: React.FC = () => {
