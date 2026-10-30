@@ -49,18 +49,23 @@ export function runTextAlternativeRules(ctx: ParsedMarkupContext): AuditIssue[] 
       let suggestedSnippet: string;
 
       if (!hasAlt) {
-        if (originalSnippet.includes('/>')) {
-          suggestedSnippet = originalSnippet.replace(/\/>$/, 'alt="คำอธิบายภาพ" />');
-        } else if (originalSnippet.includes('>')) {
-          suggestedSnippet = originalSnippet.replace(/>$/, ' alt="คำอธิบายภาพ">');
+        if (/\s*\/>\s*$/.test(originalSnippet)) {
+          suggestedSnippet = originalSnippet.replace(/\s*\/>\s*$/, ' alt="คำอธิบายภาพ" />');
+        } else if (/\s*>\s*$/.test(originalSnippet)) {
+          suggestedSnippet = originalSnippet.replace(/\s*>\s*$/, ' alt="คำอธิบายภาพ">');
         } else {
           suggestedSnippet = `${originalSnippet} alt="คำอธิบายภาพ"`;
         }
       } else {
-        suggestedSnippet = originalSnippet
-          .replace(/alt=""/, 'alt="คำอธิบายภาพ"')
-          .replace(/alt=\{""\}/, 'alt="คำอธิบายภาพ"')
-          .replace(/alt=\{''\}/, 'alt="คำอธิบายภาพ"');
+        const emptyAltPattern = /\balt=(?:(["'])\s*\1|\{(?:["']\s*["']|\s*)\})/;
+        if (emptyAltPattern.test(originalSnippet)) {
+          suggestedSnippet = originalSnippet.replace(emptyAltPattern, 'alt="คำอธิบายภาพ"');
+        } else {
+          suggestedSnippet = originalSnippet
+            .replace(/alt=""/, 'alt="คำอธิบายภาพ"')
+            .replace(/alt=\{""\}/, 'alt="คำอธิบายภาพ"')
+            .replace(/alt=\{''\}/, 'alt="คำอธิบายภาพ"');
+        }
       }
 
       issues.push({
