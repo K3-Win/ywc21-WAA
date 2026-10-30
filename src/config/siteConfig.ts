@@ -1,10 +1,16 @@
 import { SiteConfig } from '../types/accessibility';
 
+/**
+ * Centralized Configuration for Web Accessibility Inspector.
+ * 
+ * Customize branding, logo text, scoring penalties, and grade thresholds here.
+ * NOTE: Emojis are strictly avoided per project design principles.
+ */
 export const SITE_CONFIG: SiteConfig = {
   branding: {
     name: 'Web Accessibility Inspector',
     tagline: 'WCAG 2.1 / 2.2 Client-Side Audit & Remediation',
-    logoText: 'A11y Inspector',
+    logoText: 'Web Accessibility Auditor',
   },
   scoring: {
     maxScore: 100,
