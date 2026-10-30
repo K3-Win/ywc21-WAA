@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Copy, Check, ArrowRightLeft, Play, Code2, AlertTriangle } from 'lucide-react';
 import { ComparisonReport, SampleSnippet, SyntaxMode } from '../types/accessibility';
 import { SAMPLE_SNIPPETS } from '../config/sampleSnippets';
@@ -25,6 +25,8 @@ export const CodeComparisonWorkspace: React.FC<CodeComparisonWorkspaceProps> = (
   onApplyRemediated,
 }) => {
   const [copied, setCopied] = useState(false);
+  const inputGutterRef = useRef<HTMLDivElement>(null);
+  const remediatedGutterRef = useRef<HTMLDivElement>(null);
   const isAnalyzed = comparison !== null;
   const syntaxMode: SyntaxMode = detectSyntaxMode(code);
 
@@ -127,7 +129,10 @@ export const CodeComparisonWorkspace: React.FC<CodeComparisonWorkspaceProps> = (
           {/* Editor Area with Line Numbers */}
           <div className="flex-1 flex overflow-hidden relative font-mono text-xs sm:text-sm">
             {/* Gutter / Line Numbers */}
-            <div className="w-11 bg-stone-50 border-r border-stone-200 py-3 select-none flex flex-col items-end pr-2 text-stone-400 font-mono text-xs leading-6 overflow-hidden">
+            <div
+              ref={inputGutterRef}
+              className="w-11 bg-stone-50 border-r border-stone-200 py-3 select-none flex flex-col items-end pr-2 text-stone-400 font-mono text-xs leading-6 overflow-hidden"
+            >
               {inputLines.map((_, index) => {
                 const lineNum = index + 1;
                 const hasIssue = issueLineNumbers.has(lineNum);
@@ -151,6 +156,11 @@ export const CodeComparisonWorkspace: React.FC<CodeComparisonWorkspaceProps> = (
               data-testid="code-input-textarea"
               value={code}
               onChange={(e) => onCodeChange(e.target.value)}
+              onScroll={(e) => {
+                if (inputGutterRef.current) {
+                  inputGutterRef.current.scrollTop = e.currentTarget.scrollTop;
+                }
+              }}
               placeholder="วาง HTML หรือ JSX markup ของคุณที่นี่..."
               spellCheck={false}
               className="flex-1 p-3 bg-white text-stone-900 font-mono text-xs sm:text-sm leading-6 resize-none focus:outline-hidden focus:ring-1 focus:ring-stone-400 overflow-auto whitespace-pre"
@@ -231,7 +241,10 @@ export const CodeComparisonWorkspace: React.FC<CodeComparisonWorkspaceProps> = (
             {isAnalyzed ? (
               <div className="flex-1 flex overflow-hidden">
                 {/* Gutter / Line Numbers */}
-                <div className="w-11 bg-stone-950 border-r border-stone-800 py-3 select-none flex flex-col items-end pr-2 text-stone-500 font-mono text-xs leading-6 overflow-hidden">
+                <div
+                  ref={remediatedGutterRef}
+                  className="w-11 bg-stone-950 border-r border-stone-800 py-3 select-none flex flex-col items-end pr-2 text-stone-500 font-mono text-xs leading-6 overflow-hidden"
+                >
                   {remediatedLines.map((_, index) => (
                     <div key={index} className="h-6 flex items-center justify-end w-full">
                       <span>{index + 1}</span>
@@ -242,6 +255,11 @@ export const CodeComparisonWorkspace: React.FC<CodeComparisonWorkspaceProps> = (
                 {/* Remediated Code Box */}
                 <pre
                   data-testid="remediated-code-box"
+                  onScroll={(e) => {
+                    if (remediatedGutterRef.current) {
+                      remediatedGutterRef.current.scrollTop = e.currentTarget.scrollTop;
+                    }
+                  }}
                   className="flex-1 p-3 font-mono text-xs sm:text-sm leading-6 overflow-auto whitespace-pre text-emerald-300"
                 >
                   <code>{comparison.remediatedCode}</code>

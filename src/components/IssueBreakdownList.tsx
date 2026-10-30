@@ -92,6 +92,7 @@ export const IssueBreakdownList: React.FC<IssueBreakdownListProps> = ({
 
           {/* Category Filter */}
           <select
+            aria-label="กรองตามหมวดหมู่"
             value={selectedCategory}
             onChange={(e) => onSelectCategory(e.target.value as CategoryId | 'all')}
             className="px-2.5 py-1.5 rounded-lg border border-stone-200 bg-stone-50 text-stone-800 font-medium focus:outline-hidden focus:ring-1 focus:ring-stone-400"
@@ -105,6 +106,7 @@ export const IssueBreakdownList: React.FC<IssueBreakdownListProps> = ({
 
           {/* Severity Filter */}
           <select
+            aria-label="กรองตามระดับความรุนแรง"
             value={selectedSeverity}
             onChange={(e) => onSelectSeverity(e.target.value as SeverityLevel | 'all')}
             className="px-2.5 py-1.5 rounded-lg border border-stone-200 bg-stone-50 text-stone-800 font-medium focus:outline-hidden focus:ring-1 focus:ring-stone-400"

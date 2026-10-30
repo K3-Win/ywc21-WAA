@@ -55,10 +55,12 @@ export const CategorySummaryGrid: React.FC<CategorySummaryGridProps> = ({
           const isClean = isAnalyzed && (beforeCount ?? 0) === 0;
 
           return (
-            <div
+            <button
+              type="button"
               key={catId}
               onClick={() => onSelectCategory(isSelected ? 'all' : catId)}
-              className={`cursor-pointer rounded-xl p-4 border transition-all duration-150 ${
+              aria-pressed={isSelected}
+              className={`w-full text-left cursor-pointer rounded-xl p-4 border transition-all duration-150 ${
                 isSelected
                   ? 'bg-stone-900 text-white border-stone-900 shadow-md ring-2 ring-stone-900 ring-offset-1'
                   : 'bg-white text-stone-900 border-stone-200 hover:border-stone-300 hover:shadow-xs'
@@ -122,7 +124,7 @@ export const CategorySummaryGrid: React.FC<CategorySummaryGridProps> = ({
                   </span>
                 )}
               </div>
-            </div>
+            </button>
           );
         })}
       </div>
