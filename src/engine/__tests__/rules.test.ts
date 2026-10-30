@@ -281,8 +281,8 @@ describe('WCAG 4 Category Rule Modules', () => {
     });
   });
 
-  describe('Zero Emojis and Quality Constraints', () => {
-    it('ensures all audit issues contain zero emoji characters', () => {
+  describe('Typography and Output Quality Constraints', () => {
+    it('ensures all audit issues have clean formatting and standard text encoding', () => {
       const ctx = parseMarkupWithLines(`
         <div class="card">
           <img src="/banner.jpg">

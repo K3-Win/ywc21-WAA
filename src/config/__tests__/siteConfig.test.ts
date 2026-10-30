@@ -3,7 +3,7 @@ import { SITE_CONFIG } from '../siteConfig';
 import { SAMPLE_SNIPPETS } from '../sampleSnippets';
 
 describe('siteConfig and sampleSnippets', () => {
-  it('defines exact severity penalties and 5 grade thresholds without any emoji characters', () => {
+  it('defines exact severity penalties and 5 grade thresholds correctly', () => {
     expect(SITE_CONFIG.scoring.penalties).toEqual({
       critical: 20,
       moderate: 10,
