@@ -1,12 +1,5 @@
 import { SampleSnippet } from '../types/accessibility';
 
-/**
- * Pre-configured sample snippets for testing accessibility auditing and remediation.
- * Presets cover critical errors, semantic structure flaws, passing compliant markup,
- * and JSX-specific syntax.
- * 
- * NOTE: Emojis are strictly avoided per project design principles.
- */
 export const SAMPLE_SNIPPETS: SampleSnippet[] = [
   {
     id: 'critical',
